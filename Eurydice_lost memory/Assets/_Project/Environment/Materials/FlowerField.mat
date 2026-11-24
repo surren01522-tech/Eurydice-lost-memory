@@ -29,10 +29,10 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _GustStrength: 0.35
-    - _WindScale: 0.32
-    - _WindSpeed: 1.35
-    - _WindStrength: 0.141
+    - _GustStrength: 0.27
+    - _WindScale: 0.68
+    - _WindSpeed: 3.01
+    - _WindStrength: 0.201
     m_Colors:
     - _BaseColor: {r: 0.990566, g: 0.990566, b: 0.990566, a: 1}
   m_BuildTextureStacks: []
