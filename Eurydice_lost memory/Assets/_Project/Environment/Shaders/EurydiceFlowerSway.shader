@@ -54,6 +54,8 @@ Shader "Eurydice/URP Flower Sway"
             CBUFFER_END
             TEXTURE2D(_FlowerTexture);
             SAMPLER(sampler_FlowerTexture);
+            float4 _GrassInteractorPosition;
+            float4 _GrassInteractionParams;
 
             Varyings vert(Attributes input)
             {
@@ -63,6 +65,16 @@ Shader "Eurydice/URP Flower Sway"
                 float gust = sin(phase) + sin(phase * 0.47 + 1.9) * _GustStrength;
                 float tipMask = saturate(input.color.a);
                 world.xz += float2(gust, gust * 0.35) * _WindStrength * tipMask;
+
+                float2 playerDelta = world.xz - _GrassInteractorPosition.xz;
+                float playerDistance = length(playerDelta);
+                float interactionRadius = max(_GrassInteractionParams.x, 0.001);
+                float interaction = 1.0 - smoothstep(interactionRadius * 0.2, interactionRadius, playerDistance);
+                float2 pushDirection = playerDelta / max(playerDistance, 0.001);
+                float ripple = sin(playerDistance * 8.0 - _Time.y * _GrassInteractionParams.w);
+                float pushAmount = (_GrassInteractionParams.y + ripple * _GrassInteractionParams.z) * interaction;
+                world.xz += pushDirection * pushAmount * tipMask;
+
                 output.positionCS = TransformWorldToHClip(world);
                 half lightPulse = 0.78h + 0.22h * saturate(sin(phase * 0.25h) * 0.5h + 0.5h);
                 output.color = input.color.rgb * _BaseColor.rgb * lightPulse;

@@ -44,8 +44,15 @@ namespace Eurydice.Gameplay.Environment
             _mesh = BuildMesh();
             _mesh.name = "Procedural Flower Field";
             filter.sharedMesh = _mesh;
+            if (material != null && material.GetTexture("_FlowerTexture") == null)
+            {
+                Texture2D temporaryFlower = Resources.Load<Texture2D>("Textures/TemporaryFlower");
+                if (temporaryFlower != null) material.SetTexture("_FlowerTexture", temporaryFlower);
+            }
             meshRenderer.sharedMaterial = material;
         }
+
+        public Vector2 FieldSize => fieldSize;
 
         private Mesh BuildMesh()
         {

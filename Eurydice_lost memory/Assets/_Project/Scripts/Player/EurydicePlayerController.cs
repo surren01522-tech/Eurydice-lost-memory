@@ -30,6 +30,12 @@ namespace Eurydice.Gameplay.Player
         [SerializeField] private float groundedOffset = -0.14f;
         [SerializeField, Min(0.01f)] private float groundedRadius = 0.28f;
 
+        [Header("Grass Interaction")]
+        [SerializeField, Min(0.1f)] private float grassInteractionRadius = 1.5f;
+        [SerializeField, Range(0f, 0.6f)] private float grassBendStrength = 0.28f;
+        [SerializeField, Range(0f, 0.2f)] private float grassRippleStrength = 0.055f;
+        [SerializeField, Range(0f, 30f)] private float grassRippleSpeed = 14f;
+
         [Header("Camera")]
         [SerializeField] private bool rotateCameraTarget = true;
         [SerializeField, Range(0.01f, 2f)] private float lookSensitivity = 0.2f;
@@ -57,6 +63,8 @@ namespace Eurydice.Gameplay.Player
         private PlayerState _state;
         private static readonly int SpeedId = Animator.StringToHash("Speed");
         private static readonly int MotionSpeedId = Animator.StringToHash("MotionSpeed");
+        private static readonly int GrassInteractorPositionId = Shader.PropertyToID("_GrassInteractorPosition");
+        private static readonly int GrassInteractionParamsId = Shader.PropertyToID("_GrassInteractionParams");
 
         public PlayerState State => _state;
         public bool IsGrounded { get; private set; }
@@ -87,6 +95,7 @@ namespace Eurydice.Gameplay.Player
             if (_interactionLocked)
             {
                 ApplyGravityAndMove(Vector3.zero);
+                UpdateGrassInteraction();
                 return;
             }
 
@@ -95,6 +104,24 @@ namespace Eurydice.Gameplay.Player
             UpdateVerticalMovement();
             UpdateMovementState(moveDirection);
             ApplyGravityAndMove(moveDirection);
+            UpdateGrassInteraction();
+        }
+
+        private void UpdateGrassInteraction()
+        {
+            float movement = Mathf.Clamp01(_currentSpeed / Mathf.Max(walkSpeed, 0.01f));
+            float groundedStrength = IsGrounded ? Mathf.Lerp(0.12f, 1f, movement) : 0.08f;
+            Shader.SetGlobalVector(GrassInteractorPositionId, transform.position);
+            Shader.SetGlobalVector(GrassInteractionParamsId, new Vector4(
+                grassInteractionRadius,
+                grassBendStrength * groundedStrength,
+                grassRippleStrength * groundedStrength,
+                grassRippleSpeed));
+        }
+
+        private void OnDisable()
+        {
+            Shader.SetGlobalVector(GrassInteractionParamsId, Vector4.zero);
         }
 
         private void LateUpdate()
