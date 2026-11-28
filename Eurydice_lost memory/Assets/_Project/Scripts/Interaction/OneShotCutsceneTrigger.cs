@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
+using UnityEngine.Playables;
 
 namespace Eurydice.Gameplay.Interaction
 {
@@ -20,6 +21,7 @@ namespace Eurydice.Gameplay.Interaction
 
         [Header("Short Camera Cut")]
         [SerializeField] private Camera sequenceCamera;
+        [SerializeField] private PlayableDirector sequenceDirector;
         [Min(0.1f)] [SerializeField] private float duration = 3f;
         [SerializeField] private bool lockPlayerInput = true;
 
@@ -103,13 +105,27 @@ namespace Eurydice.Gameplay.Interaction
                 playerInput.DeactivateInput();
             }
 
-            if (sequenceCamera != null)
+            bool hasTimeline = sequenceDirector != null && sequenceDirector.playableAsset != null;
+            if (hasTimeline)
+            {
+                sequenceDirector.time = 0;
+                sequenceDirector.Play();
+            }
+            else if (sequenceCamera != null)
             {
                 sequenceCamera.enabled = true;
             }
 
             onSequenceStarted?.Invoke();
-            yield return new WaitForSecondsRealtime(duration);
+            if (hasTimeline)
+            {
+                while (sequenceDirector != null && sequenceDirector.state == PlayState.Playing)
+                    yield return null;
+            }
+            else
+            {
+                yield return new WaitForSecondsRealtime(duration);
+            }
             onSequenceFinished?.Invoke();
 
             if (sequenceCamera != null)
@@ -143,6 +159,11 @@ namespace Eurydice.Gameplay.Interaction
             {
                 return;
             }
+
+            StopAllCoroutines();
+            playing = false;
+            if (sequenceDirector != null)
+                sequenceDirector.Stop();
 
             if (sequenceCamera != null)
             {

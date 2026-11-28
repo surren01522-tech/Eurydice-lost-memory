@@ -130,6 +130,7 @@ GameObject:
   - component: {fileID: 2381176}
   - component: {fileID: 2381175}
   - component: {fileID: 2381174}
+  - component: {fileID: 884100020}
   m_Layer: 0
   m_Name: Sequence Trigger 01 - Portal Reveal
   m_TagString: Untagged
@@ -150,11 +151,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Eurydice.Gameplay.Interaction.OneShotCutsceneTrigger
   sequenceNumber: 1
-  rememberAfterRestart: 1
+  rememberAfterRestart: 0
   removeAfterWatching: 1
   activationKey: 95
   prompt: "F2  \uC5F0\uCD9C \uBCF4\uAE30"
   sequenceCamera: {fileID: 376536702}
+  sequenceDirector: {fileID: 884100020}
   duration: 3
   lockPlayerInput: 1
   onSequenceStarted:
@@ -610,6 +612,7 @@ GameObject:
   - component: {fileID: 396490666}
   - component: {fileID: 396490665}
   - component: {fileID: 396490664}
+  - component: {fileID: 891000023}
   m_Layer: 0
   m_Name: Portal
   m_TagString: Untagged
@@ -681,7 +684,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -3436,6 +3439,163 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 09aade0ecefd01e4b8f7661acf64f5c2, type: 3}
+--- !u!320 &884100020
+PlayableDirector:
+  m_GameObject: {fileID: 2381173}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_PlayableAsset: {fileID: 11400000, guid: d1fd3b1fca194155a6341df820c96acc, type: 2}
+  m_InitialState: 0
+  m_WrapMode: 2
+  m_DirectorUpdateMode: 2
+  m_InitialTime: 0
+  m_SceneBindings:
+  - key: {fileID: 11400001, guid: d1fd3b1fca194155a6341df820c96acc, type: 2}
+    value: {fileID: 884100021}
+  - key: {fileID: 11400004, guid: d1fd3b1fca194155a6341df820c96acc, type: 2}
+    value: {fileID: 884100022}
+  m_ExposedReferences:
+    m_References:
+    - PortalWide: {fileID: 884100002}
+    - PortalClose: {fileID: 884100012}
+--- !u!114 &884100021 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 9078993845375825671, guid: f6d148d888ffbf54b9afe9936dfaec1f, type: 3}
+  m_PrefabInstance: {fileID: 1221041499}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72ece51f2901e7445ab60da3685d6b5f, type: 3}
+  m_Name:
+  m_EditorClassIdentifier:
+--- !u!95 &884100022 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 6982812146204527121, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
+  m_PrefabInstance: {fileID: 1762682258}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &884100000
+GameObject:
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 884100001}
+  - component: {fileID: 884100002}
+  m_Layer: 0
+  m_Name: Timeline Camera - Portal Wide
+  m_TagString: Untagged
+  m_IsActive: 1
+--- !u!4 &884100001
+Transform:
+  m_GameObject: {fileID: 884100000}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.069756474, y: 0, z: 0, w: 0.99756405}
+  m_LocalPosition: {x: -0.9, y: 1.8, z: -4.2}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 8, y: 0, z: 0}
+--- !u!114 &884100002
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 884100000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9dfa5b682dcd46bda6128250e975f58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier:
+  Priority:
+    Enabled: 1
+    m_Value: -100
+  OutputChannel: 1
+  m_StreamingVersion: 20170927
+  Lens:
+    FieldOfView: 55
+    OrthographicSize: 10
+    NearClipPlane: 0.2
+    FarClipPlane: 500
+--- !u!1 &884100010
+GameObject:
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 884100011}
+  - component: {fileID: 884100012}
+  m_Layer: 0
+  m_Name: Timeline Camera - Portal Close
+  m_TagString: Untagged
+  m_IsActive: 1
+--- !u!4 &884100011
+Transform:
+  m_GameObject: {fileID: 884100010}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.07845909572784494, y: 0, z: 0, w: 0.996917333733128}
+  m_LocalPosition: {x: 0, y: 2.8, z: 14}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 9, y: 0, z: 0}
+--- !u!114 &884100012
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 884100010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9dfa5b682dcd46bda6128250e975f58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier:
+  Priority:
+    Enabled: 1
+    m_Value: -100
+  OutputChannel: 1
+  m_StreamingVersion: 20170927
+  Lens:
+    FieldOfView: 50
+    OrthographicSize: 10
+    NearClipPlane: 0.2
+    FarClipPlane: 500
+--- !u!1 &891000030
+GameObject:
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 891000031}
+  - component: {fileID: 891000032}
+  m_Layer: 0
+  m_Name: FromLobby
+  m_TagString: Untagged
+  m_IsActive: 1
+--- !u!4 &891000031
+Transform:
+  m_GameObject: {fileID: 891000030}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &891000032
+MonoBehaviour:
+  m_GameObject: {fileID: 891000030}
+  m_Enabled: 1
+  m_Script: {fileID: 11500000, guid: 45e94da1cd75481899c2055471b347b9, type: 3}
+  m_Name:
+  m_EditorClassIdentifier:
+  arrivalId: FromLobby
+--- !u!114 &891000023
+MonoBehaviour:
+  m_GameObject: {fileID: 396490663}
+  m_Enabled: 1
+  m_Script: {fileID: 11500000, guid: 683340bdd7b546118af708578198e820, type: 3}
+  m_Name:
+  m_EditorClassIdentifier:
+  destinationScene: Assets/_Project/Scenes/LobbyPortalTest.unity
+  destinationArrival: FromChapter01
+  fadeSeconds: 0.25
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -3463,3 +3623,6 @@ SceneRoots:
   - {fileID: 3487920870424924609}
   - {fileID: 2381176}
   - {fileID: 376536703}
+  - {fileID: 884100001}
+  - {fileID: 884100011}
+  - {fileID: 891000031}
